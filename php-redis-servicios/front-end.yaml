@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  labels:
+    app: guestbook
+
+spec:
+  selector:
+    matchLabels:
+      app: guestbook
+      tier: front-end
+
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: guestbook
+        tier: front-end
+
+    spec:
+      containers:
+      - name: php-redis
+        image: gcr.io/google-samples/gb-frontend:v4
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
