@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-d
+  labels:
+    estado: "1"
+
+spec:
+  selector: #Permite seleccionar un conjunto de objetos que cumplen con las condiciones
+    matchLabels:
+      app: nginx
+  replicas: 10 #Indica al controlador que ejecute 10 pods
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 10 
+  template: # Plantilla que define los containers
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+
